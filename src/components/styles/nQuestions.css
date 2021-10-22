@@ -1,0 +1,28 @@
+.question-form{
+    padding-top: 20%;
+    color: white;
+    
+}
+.reponse{
+    margin-top: 7%;
+}
+#question{
+    padding: 2%;
+}
+.question{
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+}
+.btn-reponse{
+    width: 30%;
+    padding: 1.5%;
+    color: #1d3988;
+    font-weight: bold;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.876);
+    /* border-radius: 20px; */
+    margin-top: 5%;
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+
+}

@@ -1,0 +1,41 @@
+.register{
+    max-width: 60%;
+    width: 300px;
+    padding-top: 10%;
+    text-align: start;
+    color: #fdfdfd;
+    /* text-decoration-style: solid; */
+    font-weight: 500;
+
+}
+.myForm{
+    justify-content: center;
+}
+.login{
+color: #1d3988;
+background-color: #ffffffd2;
+border-color: #1d3988;
+margin-top: 5%;
+font-weight: bold;
+border-top-right-radius:50px;
+width:40%;
+    border-bottom-left-radius:50px;
+
+}
+.margin-top{
+    margin-top: 8%;
+}
+.pointer{
+    cursor: pointer;
+}
+.form-control{
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+    padding-left: 13%;
+}
+.form-control1{
+    border-top-right-radius:50px;
+    border-bottom-left-radius:50px;
+    text-align: center;
+
+}
