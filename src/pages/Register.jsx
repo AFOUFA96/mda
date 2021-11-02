@@ -1,57 +1,79 @@
 import '../components/styles/register.css';
 import React, { useState } from 'react';
+import { Extenders } from '../Extenders';
+Extenders.init();
 
 export function Register(props) {
     const { text, classes, handleRouterClick } = props;
 
     const [withPseudo, setWithPseudo] = useState(false);
-
+    const [emailExist, setEmailExist] = useState(false);
 
     function pseudo() {
-        // let email = document.getElementById("email");
-        // email.innerHTML = '  <label for="InputPseudo" class="form-label"> Pseudo<label/> <input type="pseudo" class="form-control" id="InputPseudo" name="pseudo"/> ';
         setWithPseudo(true);
     }
 
     function email(){
         setWithPseudo(false);
     }
+
+    function handleSubmit(evt) {
+        evt.preventDefault();
+        let formData = new FormData(evt.currentTarget);
+        const value = JSON.stringify(Object.fromEntries(formData));
+       const json = JSON.tryParse(value);
+       json.annee = sessionStorage.getItem("birthYear");
+        fetch("http://localhost:3001/utilisateur/register", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            method: "post",
+            body: json
+        }).then(resp => resp.text()).then(text => {
+            const json = JSON.tryParse(text);
+            console.log(json.status);
+            if(json.status == false){
+                setEmailExist(true);
+            }
+        });
+    }
     return (
-        <>
+         <>   {/* MESSAGE ACCOUNT EXISTE */}
+            {emailExist && <div className="mailExist"><p>Account already exist !</p></div>}
+   
             <div className="d-flex myForm">
-                <form class="register" id="loginForm">
+                <form className="register" id="loginForm" onSubmit={handleSubmit}>
+                     {/*CONNEXION AVEC EMAIL */}
                     {!withPseudo &&
-                        <div class="mb-3" id="email">
-                            <label for="InputEmail" class="form-label">Adresse email</label>
-                            <input type="email" class="form-control" id="InputEmail" name="email" />
-                            <a class="underlineHover mb-3 pointer " onClick={pseudo}>vous n'avez pas d'email?</a>
+                        <div className="mb-3" id="email">
+                            <label for="InputEmail" className="form-label">Adresse email</label>
+                            <input type="email" className="form-control" id="InputEmail" name="email" />
+                            <a className="underlineHover mb-3 pointer " onClick={pseudo}>vous n'avez pas d'email?</a>
                             {withPseudo}
                         </div>
                     }
-
+{                   /*CONNEXION AVEC PSEUDO */}
                     {withPseudo &&
-                        <div class="mb-3" id="pseudo">
-                            <label for="InputPseudo" class="form-label">Pseudo</label>
-                            <input type="text" class="form-control" id="InputPseudo" name="pseudo" />
-                            <a class="underlineHover mb-3 pointer" onClick={email}>vous avez un email!</a>
+                        <div className="mb-3" id="pseudo">
+                            <label for="InputPseudo" className="form-label">Pseudo</label>
+                            <input type="text" className="form-control" id="InputPseudo" name="pseudo" />
+                            <a className="underlineHover mb-3 pointer" onClick={email}>vous avez un email!</a>
 
                         </div>
                     }
 
-                    <div class="mb-3">
-                        <label for="InputPassword" class="form-label margin-top">Mot de passe</label>
-                        <input type="password" class="form-control" id="InputPassword" name="password" />
+                    <div className="mb-3">
+                        <label for="InputPassword" className="form-label margin-top">Mot de passe</label>
+                        <input type="password" className="form-control" id="InputPassword" name="password" />
                     </div>
                     <div id="formFooter">
-                        <a class="underlineHover mb-3 ">Mot de passe oublié ?</a>
+                        <a className="underlineHover mb-3 ">Mot de passe oublié ?</a>
                     </div>
                     <div className="d-flex justify-content-end">
 
-                        <input onClick={handleRouterClick?.bind(this, "Needs") } type="submit" class="btn btn-primary login" name="submit" value="login"></input>
+                        <input  type="submit" className="btn btn-primary login" name="submit" value="login"></input>
                     </div>
-
-
-
                 </form>
             </div>
         </>

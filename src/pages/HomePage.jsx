@@ -9,13 +9,13 @@ export function HomePage(props){
     const [loading, setLoading] = useState(true);
     const languesRef = useRef([]);
 
-      useEffect(() => {
+      useEffect(() => { //eviter d'utiliser le usestate
         const urlToLanguages = "http://localhost:3001/langues";
         fetch(urlToLanguages).then((resp=>resp.text())).then(text=>{
             let json;
             try{
                 json = JSON.parse(text);
-                languesRef.current = json;
+                languesRef.current = json; //ref pour stocker em mémoire(local storage est mieux que useref)
                 setLoading(false);
     
             }catch{
@@ -27,8 +27,9 @@ export function HomePage(props){
     });
     const langues = languesRef.current;
     let languesItems = []; //Pour Afaf :-)
+    
         for (const lang of langues) {
-            languesItems.push(<CustomButton route="NQuestions" handleClick ={handleRouterClick} classes="btn-langage" image ={process.env.PUBLIC_URL + '/assets/images/'+ lang.nom +'.jpg'} text={lang.nom} />);
+            languesItems.push(<CustomButton key={lang.id} route="NQuestions" handleClick ={handleRouterClick} classes="btn-langage" image ={process.env.PUBLIC_URL + '/assets/images/'+ lang.nom +'.jpg'} text={lang.nom} />);
         }
     return(
         <>

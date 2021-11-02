@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { QuestionForm } from "../components/questionForm";
 import '../components/styles/nQuestions.css';
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import {Extenders} from '../Extenders';
+Extenders.init();
 
 
 let count = 1;
@@ -35,6 +37,7 @@ export function NQuestions(props) {
   const reponses = reponsesRef.current;
   const questions = questionsRef.current;
 
+
   const questionItems = [];
   for (const quest of questions) {
     for (const rep of reponses) {
@@ -52,22 +55,33 @@ export function NQuestions(props) {
           <label id="question">{quest.enonce}</label>
         </div>
         <div className="reponse">
-        <input  className="form-control1  "type="text" id="html" name="fav_language"/><br/>
+        <input  className="form-control1" type="text" id="html" name="annee"/><br/>
         </div>
-        <input type="submit" onClick={handleRouterClick?.bind(this, "Register") } value="Submit" class="btn btn-primary login"></input>
+        <input type="submit" value="Submit" class="btn btn-primary login"></input>
     </div>);
     }    
   }
   const MyQuestion = (questionItems, nextQuestion) => {
     for (let i = 0; i < questionItems.length; i++) {
+     
       if (nextQuestion == i) {
         return questionItems[i];
       }
     }
   }
+
+  function hundleSubmit(evt){
+    evt.preventDefault();
+    let formData = new FormData(evt.currentTarget);
+    const value = JSON.stringify(Object.fromEntries(formData));
+    const json = JSON.tryParse(value);
+    //localstorage birthYear
+    localStorage.setItem('birthYear',json.annee);
+    handleRouterClick("Register");
+  }
   return (
     <>
-      <form className="question-form">
+      <form className="question-form" onSubmit={hundleSubmit}>
 
         {(loading) ? (<LoadingSpinner bsColor="text-white" size="4rem" />) : (MyQuestion(questionItems, nextQuestion))}
 
