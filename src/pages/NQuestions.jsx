@@ -11,9 +11,11 @@ export function NQuestions(props) {
   const { text, classes, handleRouterClick } = props;
   const [loading, setLoading] = useState(true);
   const [nextQuestion, setNextQuestion] = useState(0);
-
-  const validateReponse = () => {
+  let allResponces = [];
+  const validateReponse = (evt) => {
+    allResponces.push(evt.currentTarget.id);
     setNextQuestion(count++);
+
   }
   const reponsesRef = useRef([]);
   const questionsRef = useRef([]);
@@ -33,21 +35,31 @@ export function NQuestions(props) {
         setLoading(false);
     })
   });
-  let x = [];
+
+  let json ={
+    idRep : [],
+    enonceRep : []
+  };
   const reponses = reponsesRef.current;
   const questions = questionsRef.current;
+ 
+ 
+
 
 
   const questionItems = [];
   for (const quest of questions) {
     for (const rep of reponses) {
       if (quest.id == rep.id_question) {
-        x.push(rep.enonce);
+
+        json.idRep.push(rep.id);
+        json.enonceRep.push(rep.enonce);
       }
     }
-    if(x[0]){
-      questionItems.push(<QuestionForm fonction={validateReponse} question={quest.enonce} rep1={x[0]} rep2={x[1]} />);
-      x=[];
+    if(json.enonceRep[0]){
+      questionItems.push(<QuestionForm fonction={validateReponse} question={quest.enonce} id1={json.idRep[0]} id2={ json.idRep[1]} rep1={json.enonceRep[0]} rep2={json.enonceRep[1]}/>);
+      json.idRep =[];
+      json.enonceRep =[];
     }
     else{
       questionItems.push(<div>
@@ -57,7 +69,7 @@ export function NQuestions(props) {
         <div className="reponse">
         <input  className="form-control1" type="text" id="html" name="annee"/><br/>
         </div>
-        <input type="submit" value="Submit" class="btn btn-primary login"></input>
+        <input type="submit" value="Submit" className="btn btn-primary login"></input>
     </div>);
     }    
   }
@@ -77,6 +89,8 @@ export function NQuestions(props) {
     const json = JSON.tryParse(value);
     //localstorage birthYear
     localStorage.setItem('birthYear',json.annee);
+    localStorage.setItem('allResponces',json.allResponces);
+    console.log(json);
     handleRouterClick("Register");
   }
   return (

@@ -9,6 +9,12 @@ export function HomePage(props){
     const [loading, setLoading] = useState(true);
     const languesRef = useRef([]);
 
+    const handleLanguageClick = (langId, evt)=>{
+        // let json={};
+        localStorage.setItem('language',langId);
+        handleRouterClick("NQuestions");
+    }
+
       useEffect(() => { //eviter d'utiliser le usestate
         const urlToLanguages = "http://localhost:3001/langues";
         fetch(urlToLanguages).then((resp=>resp.text())).then(text=>{
@@ -28,8 +34,11 @@ export function HomePage(props){
     const langues = languesRef.current;
     let languesItems = []; //Pour Afaf :-)
     
+    
         for (const lang of langues) {
-            languesItems.push(<CustomButton key={lang.id} route="NQuestions" handleClick ={handleRouterClick} classes="btn-langage" image ={process.env.PUBLIC_URL + '/assets/images/'+ lang.nom +'.jpg'} text={lang.nom} />);
+            
+            languesItems.push(<CustomButton key={lang.id} route="NQuestions" handleClick={handleLanguageClick.bind(this,lang.id)} classes="btn-langage" image ={process.env.PUBLIC_URL + '/assets/images/'+ lang.nom +'.jpg'} name={lang.nom} text={lang.nom} />);
+            
         }
     return(
         <>

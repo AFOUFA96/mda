@@ -22,14 +22,16 @@ export function Register(props) {
         let formData = new FormData(evt.currentTarget);
         const value = JSON.stringify(Object.fromEntries(formData));
        const json = JSON.tryParse(value);
-       json.annee = sessionStorage.getItem("birthYear");
+       json.annee = localStorage.getItem("birthYear");
+       json.langId = localStorage.getItem("language");
+
         fetch("http://localhost:3001/utilisateur/register", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
             method: "post",
-            body: json
+            body: JSON.stringify(json)
         }).then(resp => resp.text()).then(text => {
             const json = JSON.tryParse(text);
             console.log(json.status);
@@ -47,7 +49,7 @@ export function Register(props) {
                      {/*CONNEXION AVEC EMAIL */}
                     {!withPseudo &&
                         <div className="mb-3" id="email">
-                            <label for="InputEmail" className="form-label">Adresse email</label>
+                            <label htmlFor="InputEmail" className="form-label">Adresse email</label>
                             <input type="email" className="form-control" id="InputEmail" name="email" />
                             <a className="underlineHover mb-3 pointer " onClick={pseudo}>vous n'avez pas d'email?</a>
                             {withPseudo}
@@ -56,7 +58,7 @@ export function Register(props) {
 {                   /*CONNEXION AVEC PSEUDO */}
                     {withPseudo &&
                         <div className="mb-3" id="pseudo">
-                            <label for="InputPseudo" className="form-label">Pseudo</label>
+                            <label htmlFor="InputPseudo" className="form-label">Pseudo</label>
                             <input type="text" className="form-control" id="InputPseudo" name="pseudo" />
                             <a className="underlineHover mb-3 pointer" onClick={email}>vous avez un email!</a>
 
@@ -64,7 +66,7 @@ export function Register(props) {
                     }
 
                     <div className="mb-3">
-                        <label for="InputPassword" className="form-label margin-top">Mot de passe</label>
+                        <label htmlFor="InputPassword" className="form-label margin-top">Mot de passe</label>
                         <input type="password" className="form-control" id="InputPassword" name="password" />
                     </div>
                     <div id="formFooter">
