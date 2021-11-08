@@ -1,4 +1,4 @@
-import {HomePage,Register, Needs, Association, NQuestions} from '../pages'
+import {HomePage, Register, Needs, Association, NQuestions} from '../pages'
 
 
 export const Page = (props) => {
