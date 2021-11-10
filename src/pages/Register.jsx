@@ -24,7 +24,6 @@ export function Register(props) {
        const json = JSON.tryParse(value);
        json.annee = localStorage.getItem("birthYear");
        json.langId = localStorage.getItem("language");
-
         fetch("http://localhost:3001/utilisateur/register", {
             headers: {
                 'Accept': 'application/json',
@@ -38,6 +37,20 @@ export function Register(props) {
             if(json.status == false){
                 setEmailExist(true);
             }
+            // if(json.status){
+            //     json.allResponces = localStorage.getItem("allResponces");
+            //     fetch("http://localhost:3001/utilisateur/reponse",{
+            //         headers:{
+            //             'Accept' : 'application/json',
+            //             'Content-type': 'application/json'
+            //         },
+            //         method:'post',
+            //         body: JSON.stringify(json)
+            //         }).then(resp => resp.text()).then(text => {
+            //             const json = JSON.tryParse(text);
+            //             console.log(json);
+            //         })
+            // }
         });
     }
     return (
